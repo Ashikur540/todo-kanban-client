@@ -1,4 +1,4 @@
-import { CalendarDays, MessagesSquare, Paperclip } from "lucide-react";
+import { CalendarDays, MessagesSquare } from "lucide-react";
 import { genRandomNum } from "../../lib/utils";
 import IconStackFill from "../../components/icons/IconStackFill";
 import IconClipboardList from "../../components/icons/IconClipboardFill";

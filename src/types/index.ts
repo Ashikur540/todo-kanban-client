@@ -1,5 +1,5 @@
 export type TodoType = {
-  _id: number;
+  _id: string;
   title: string;
   description: string;
   status: string;
