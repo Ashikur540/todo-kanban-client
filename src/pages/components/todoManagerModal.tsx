@@ -7,12 +7,19 @@ import {
   DialogContent,
   DialogHeader,
   DialogTrigger,
-  DialogDescription,
+  // DialogDescription,
   DialogFooter,
   DialogTitle,
 } from "../../components/ui/dialog";
 // import IconWithText from "./IconWithText";
 import { useState } from "react";
+// import {
+//   FileInput,
+//   FileUploader,
+//   FileUploaderContent,
+//   FileUploaderItem,
+// } from "../../components/ui/file-upload";
+import TodoAttachmentUploader from "./TodoAttachmentUploader";
 
 type TodoManagerModalProps = {
   todoId: string;
@@ -31,14 +38,10 @@ export function TodoManagerModal({ todoId }: TodoManagerModalProps) {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit profile {todoId}</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done. Make
-            changes to your profile here. Click save when you're done. Make
-            changes to your profile here. Click save when you're done. Make
-            changes to your profile here. Click save when you're done.
-          </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">This is a modal</div>
+
+        <TodoAttachmentUploader />
+
         <DialogFooter>
           <Button type="submit">Save changes</Button>
         </DialogFooter>

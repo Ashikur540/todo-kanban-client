@@ -4,7 +4,7 @@ import IconStackFill from "../../components/icons/IconStackFill";
 import IconClipboardList from "../../components/icons/IconClipboardFill";
 import AvatarWithName from "./AvatarWithName";
 import IconWithText from "./IconWithText";
-import { TodoManagerModal } from "./todoManagerModal";
+import { TodoManagerModal } from "./TodoManagerModal";
 import { TodoType } from "../../types";
 
 type KanbanCardProps = {
@@ -14,7 +14,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
   return (
     <>
       <div
-        className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 cursor-move"
+        className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 cursor-move  flex-shrink-0 "
         // tabIndex="0"
       >
         <div className="flex justify-between items-center gap-4">
@@ -38,7 +38,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
           </div>
         </div>
 
-        <div className="flex justify-stretch items-center gap-4">
+        <div className="flex justify-stretch items-center gap-3">
           <img
             src={`https://randomuser.me/api/portraits/men/${genRandomNum(
               1,

@@ -11,7 +11,7 @@ const KanbanColumn = ({ children, column }: KanbanColumnProps) => {
   return (
     <>
       <div
-        className={`flex-shrink-0 max-w-[400px] min-w-[320px] h-[100vh] bg-gray-100 rounded-lg shadow-lg`}
+        className={`flex-shrink-0 max-w-[400px] min-w-[340px] w-full h-[100vh] bg-gray-100 rounded-lg shadow-lg`}
       >
         <div className="p-4 font-semibold text-lg border-b flex justify-between gap-4 items-center">
           <p>{column.title}</p>
