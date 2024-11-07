@@ -1,7 +1,7 @@
 import { TodoType } from "../types";
 
 export const todo: TodoType = {
-  id: 1,
+  _id: 1,
   title: "Design UI",
   description: "Create Wireframes and Design UI of the task of the project",
   status: "To Do",

@@ -4,12 +4,11 @@ import IconStackFill from "../../components/icons/IconStackFill";
 import IconClipboardList from "../../components/icons/IconClipboardFill";
 import AvatarWithName from "./AvatarWithName";
 import IconWithText from "./IconWithText";
+import { TodoManagerModal } from "./todoManagerModal";
+import { TodoType } from "../../types";
 
 type KanbanCardProps = {
-  todo: {
-    id: number;
-    description: string;
-  };
+  todo: TodoType;
 };
 const KanbanCard = ({ todo }: KanbanCardProps) => {
   return (
@@ -64,10 +63,11 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
             icon={<MessagesSquare className="h-5 w-5" />}
             text="15"
           ></IconWithText>
-          <IconWithText
+          {/* <IconWithText
             icon={<Paperclip className="h-5 w-5" />}
             text="15"
-          ></IconWithText>
+          ></IconWithText> */}
+          <TodoManagerModal todoId={todo?._id} />
           <IconWithText
             icon={<CalendarDays className="h-5 w-5" />}
             text={new Date().toLocaleDateString()}
