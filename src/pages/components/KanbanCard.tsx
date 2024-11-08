@@ -63,11 +63,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
             icon={<MessagesSquare className="h-5 w-5" />}
             text="15"
           ></IconWithText>
-          {/* <IconWithText
-            icon={<Paperclip className="h-5 w-5" />}
-            text="15"
-          ></IconWithText> */}
-          <TodoManagerModal todoId={todo?._id} />
+          <TodoManagerModal todoId={todo?._id} modalType="edit" />
           <IconWithText
             icon={<CalendarDays className="h-5 w-5" />}
             text={new Date().toLocaleDateString()}

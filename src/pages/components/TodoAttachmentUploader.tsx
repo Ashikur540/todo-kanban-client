@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 import {
   FileUploader,
   FileUploaderContent,
@@ -6,6 +6,12 @@ import {
   FileInput,
 } from "../../components/ui/file-upload";
 import { Paperclip } from "lucide-react";
+
+const dropZoneConfig = {
+  maxFiles: 3,
+  maxSize: 1024 * 1024 * 4,
+  multiple: true,
+} as const;
 
 const FileSvgDraw = () => {
   return (
@@ -27,47 +33,51 @@ const FileSvgDraw = () => {
       </svg>
       <p className="mb-1 text-sm text-gray-500 dark:text-gray-400">
         <span className="font-semibold">Click to upload</span>
-        &nbsp; or drag and drop
+        &nbsp; or drag and drop. Max 3 files
       </p>
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        SVG, PNG, JPG or GIF
+        SVG, PNG, JPG or GIF or PDF. Maximum size 2MB
       </p>
     </>
   );
 };
 
-const TodoAttachmentUploader = () => {
-  const [files, setFiles] = useState<File[] | null>(null);
+type TodoAttachmentUploaderProps = {
+  files: File[] | null;
+  setFiles: React.Dispatch<React.SetStateAction<File[] | null>>;
+};
 
-  const dropZoneConfig = {
-    maxFiles: 5,
-    maxSize: 1024 * 1024 * 4,
-    multiple: true,
-  };
+const TodoAttachmentUploader = ({
+  files,
+  setFiles,
+}: TodoAttachmentUploaderProps) => {
+  // const [files, setFiles] = useState<File[] | null>(null);
 
   return (
-    <FileUploader
-      value={files}
-      onValueChange={setFiles}
-      dropzoneOptions={dropZoneConfig}
-      className="relative bg-background rounded-lg p-2"
-    >
-      <FileInput className="outline-dashed outline-1 outline-white">
-        <div className="flex items-center justify-center flex-col pt-3 pb-4 w-full ">
-          <FileSvgDraw />
-        </div>
-      </FileInput>
-      <FileUploaderContent>
-        {files &&
-          files.length > 0 &&
-          files.map((file, i) => (
-            <FileUploaderItem key={i} index={i}>
-              <Paperclip className="h-4 w-4 stroke-current" />
-              <span>{file.name}</span>
-            </FileUploaderItem>
-          ))}
-      </FileUploaderContent>
-    </FileUploader>
+    <div className="border border-black/35 border-dashed rounded-md">
+      <FileUploader
+        value={files}
+        onValueChange={setFiles}
+        dropzoneOptions={dropZoneConfig}
+        className="relative bg-background rounded-lg p-2"
+      >
+        <FileInput className="outline-dashed outline-1 outline-white">
+          <div className="flex items-center justify-center flex-col pt-3 pb-4 w-full ">
+            <FileSvgDraw />
+          </div>
+        </FileInput>
+        <FileUploaderContent>
+          {files &&
+            files.length > 0 &&
+            files.map((file, i) => (
+              <FileUploaderItem key={i} index={i}>
+                <Paperclip className="h-4 w-4 stroke-current" />
+                <span>{file.name}</span>
+              </FileUploaderItem>
+            ))}
+        </FileUploaderContent>
+      </FileUploader>
+    </div>
   );
 };
 

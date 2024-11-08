@@ -54,10 +54,6 @@ type FileUploaderProps = {
   orientation?: "horizontal" | "vertical";
 };
 
-/**
- * File upload Docs: {@link: https://localhost:3000/docs/file-upload}
- */
-
 export const FileUploader = forwardRef<
   HTMLDivElement,
   FileUploaderProps & React.HTMLAttributes<HTMLDivElement>
@@ -187,7 +183,16 @@ export const FileUploader = forwardRef<
               );
               break;
             }
+            if (rejectedFiles[i].errors[0]?.code === "too-many-files") {
+              toast.error(
+                rejectedFiles[i].errors[0].message +
+                  "!! Max files is " +
+                  maxFiles
+              );
+              break;
+            }
             if (rejectedFiles[i].errors[0]?.message) {
+              console.log(rejectedFiles[i].errors);
               toast.error(rejectedFiles[i].errors[0].message);
               break;
             }
