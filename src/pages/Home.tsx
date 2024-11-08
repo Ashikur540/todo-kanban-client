@@ -12,7 +12,9 @@ const KanbanBoard = () => {
 
   // process the data from the API
 
-  const todoStatusArr = [...new Set(todos && todos.map((todo) => todo.status))];
+  const todoStatusArr = [
+    ...new Set(todos && todos.map((todo) => todo.status)),
+  ].reverse();
   const kanbanData = todoStatusArr.map((status) => ({
     title: status,
     todo: todos.filter((todo) => todo.status === status),
