@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTrigger,
-  // DialogDescription,
   DialogFooter,
   DialogTitle,
 } from "../../components/ui/dialog";
@@ -17,31 +16,36 @@ import TodoAttachmentUploader from "./TodoAttachmentUploader";
 import { Input } from "../../components/ui/input";
 import axiosInstance from "../../lib/axios";
 import { toast } from "sonner";
-import { AxiosError, isAxiosError } from "axios";
+import { isAxiosError } from "axios";
+import { TodoType } from "../../types";
+import { extractFilename } from "../../lib/utils";
 
 type TodoManagerModalProps = {
-  todoId?: string;
+  todoData?: TodoType;
   modalType?: "add" | "edit";
 };
 
 export function TodoManagerModal({
-  todoId,
+  todoData,
   modalType = "add",
 }: TodoManagerModalProps) {
+  const btnText = modalType === "edit" ? "Save Changes" : "Add New Todo";
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[] | null>(null);
-  const [todo, setTodo] = useState<string | null>(null);
+  const [todo, setTodo] = useState(todoData?.todo || "");
 
-  const btnText = modalType === "edit" ? "Save Changes" : "Add New Todo";
+  // Initialize todo state when todoData changes
+  // useEffect(() => {
+  //   if (todoData) {
+  //     setTodo(todoData.todo);
+  //   }
+  // }, [todoData]);
 
   const handleSubmit = async () => {
     const formData = new FormData();
+    formData.append("todo", todo);
 
-    // Append todo text with the exact key your backend expects
-    formData.append("todo", todo || "");
-
-    // Append files with the exact key name matching your multer config
     if (files?.length) {
       files.forEach((file) => {
         formData.append("attachments_files", file);
@@ -50,29 +54,42 @@ export function TodoManagerModal({
 
     try {
       setIsLoading(true);
-      const res = await axiosInstance.post("/todos/create", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(
-        "✨ ~ file: todoManagerModal.tsx:55 ~ handleSubmit ~ res:",
-        res.data
+
+      if (modalType === "edit" && todoData?._id) {
+        await axiosInstance.patch(`/todos/${todoData?._id}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        await axiosInstance.post("/todos/create", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      }
+
+      toast(
+        `Todo ${modalType === "edit" ? "updated" : "created"} successfully`,
+        {
+          action: {
+            label: "Refresh",
+            onClick: () => window.location.reload(),
+          },
+        }
       );
 
-      toast.success("Todo created successfully");
       setFiles(null);
-      setTodo(null);
+      setTodo("");
       setIsOpen(false);
-      setIsLoading(false);
     } catch (error) {
       if (isAxiosError(error)) {
-        const err = error as AxiosError;
-        const errorMessage = err.response?.data?.message || "An error occurred";
+        const errorMessage =
+          error.response?.data?.message || "An error occurred";
         toast.error(errorMessage);
-        setIsLoading(false);
-        return;
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -95,7 +112,6 @@ export function TodoManagerModal({
         <DialogHeader>
           <DialogTitle>
             {modalType === "edit" ? "Edit" : "Add"} Todo{" "}
-            {modalType === "edit" && todoId}
           </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-1">
@@ -105,13 +121,34 @@ export function TodoManagerModal({
           <Input
             placeholder="Enter todo"
             name="todo"
-            onChange={(e) => setTodo(e.target.value.trim())}
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)}
           />
+          {modalType === "add" && (
+            <p className="text-sm text-gray-500">Status is "Todo" by default</p>
+          )}
         </div>
         <label htmlFor="attachments" className="text-sm">
           🧷 Add attachments:
         </label>
         <TodoAttachmentUploader files={files} setFiles={setFiles} />
+
+        <div className="flex flex-col">
+          {todoData?.attachments &&
+            todoData?.attachments?.map((attachment) => (
+              <div key={todoData?._id} className="flex items-center gap-2">
+                <Paperclip className="text-[#666666]" />
+                <a
+                  href={attachment}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-[#666666]"
+                >
+                  {extractFilename(attachment)}
+                </a>
+              </div>
+            ))}
+        </div>
         <DialogFooter>
           <Button type="submit" onClick={handleSubmit} disabled={isLoading}>
             {isLoading ? "Saving..." : btnText}

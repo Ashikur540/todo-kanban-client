@@ -20,7 +20,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
   return (
     <>
       <div
-        className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-105 focus-within:ring-2 focus-within:ring-blue-500 cursor-move  flex-shrink-0 "
+        className="bg-white p-4 rounded-lg shadow-md transition-transform duration-200 hover:scale-[1.02] focus-within:ring-2 focus-within:ring-blue-500 cursor-move  flex-shrink-0 "
         // tabIndex="0"
       >
         <div className="flex justify-between items-center gap-4">
@@ -32,9 +32,9 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
           <div className="inline-flex justify-start items-center gap-2 mb-2">
             <IconStackFill className="text-[#666666] flex-shrink-0" />
             <p className="text-gray-600 text-sm">
-              {todo.description && todo.description.length > 20
-                ? todo.description.slice(0, 24)
-                : todo.description}
+              {todo.todo && todo.todo.length > 20
+                ? todo.todo.slice(0, 24)
+                : todo.todo}
               ...
             </p>
           </div>
@@ -72,7 +72,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <TodoManagerModal todoId={todo?._id} modalType="edit" />
+                <TodoManagerModal todoData={todo} modalType="edit" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Edit todo</p>
@@ -81,7 +81,7 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
           </TooltipProvider>
           <IconWithText
             icon={<CalendarDays className="h-5 w-5" />}
-            text={new Date().toLocaleDateString()}
+            text={new Date(todo.createdAt).toLocaleDateString()}
           ></IconWithText>
         </div>
       </div>

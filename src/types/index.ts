@@ -1,10 +1,9 @@
 export type TodoType = {
   _id: string;
-  title: string;
-  description: string;
+  todo: string;
   status: string;
-  assignedTo: number;
-  dueDate: string;
+  attachments: string[];
+  createdAt: string;
 };
 
 export type KanbanType = {
