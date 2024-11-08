@@ -99,7 +99,9 @@ export function TodoManagerModal({
         {modalType === "edit" ? (
           <Button variant="ghost" className="flex gap-1">
             <Paperclip className="text-[#666666]" />
-            <span className="text-[#666666]">12</span>
+            <span className="text-[#666666]">
+              {todoData?.attachments?.length ?? 0}
+            </span>
           </Button>
         ) : (
           <Button className="flex gap-1">
