@@ -6,6 +6,12 @@ import AvatarWithName from "./AvatarWithName";
 import IconWithText from "./IconWithText";
 import { TodoManagerModal } from "./TodoManagerModal";
 import { TodoType } from "../../types";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../../components/ui/tooltip";
 
 type KanbanCardProps = {
   todo: TodoType;
@@ -63,7 +69,16 @@ const KanbanCard = ({ todo }: KanbanCardProps) => {
             icon={<MessagesSquare className="h-5 w-5" />}
             text="15"
           ></IconWithText>
-          <TodoManagerModal todoId={todo?._id} modalType="edit" />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <TodoManagerModal todoId={todo?._id} modalType="edit" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Edit todo</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <IconWithText
             icon={<CalendarDays className="h-5 w-5" />}
             text={new Date().toLocaleDateString()}
